@@ -1,0 +1,24 @@
+const url = 'http://files.cod3r.com.br/curso-js/funcionarios.json'
+const axios = require('axios')
+
+
+axios.get(url).then(response => {
+    const funcionarios = response.data
+
+    const menorSalario = funcionarios
+    .filter(objetoFuncionario => {
+        return objetoFuncionario.genero == 'F' && objetoFuncionario.pais == 'China' //retorna um array apenas com mulheres chinesas
+    })
+    .map(objetoFuncionario => objetoFuncionario.salario) //retorna um array apenas com os salarios
+    .reduce(function(acumulador, valorAtual) { 
+        return valorAtual < acumulador ? valorAtual : acumulador //retorna apenas o menor salario
+    })
+
+    const func = funcionarios.filter(function(objeto){
+        return objeto.genero == 'F' && objeto.pais == 'China' && objeto.salario == menorSalario //retorna os dados da mulher chinesa com menor salario
+    })
+    
+    console.log(func) // imprime a mulher chinesa com menor salario
+
+
+})
